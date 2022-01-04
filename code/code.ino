@@ -6,6 +6,7 @@
 #define b6, 6
 #define b7, 7
 #define b8, 8
+#define out, 9
 //button definitions, the nano v3 has 14 digital pins so why
 //not just wire one up to each
 
@@ -18,6 +19,16 @@ int bS5 = 0;
 int bS6 = 0;
 int bS7 = 0;
 int bS8 = 0;
+
+//defining note frequencies
+int n1 = 0;
+int n2 = 0;
+int n3 = 0;
+int n4 = 0;
+int n5 = 0;
+int n6 = 0;
+int n7 = 0;
+int n8 = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -42,4 +53,24 @@ void loop() {
   bS6 = digitalRead(b6);
   bS7 = digitalRead(b7);
   bS8 = digitalRead(b8);
+  if (bS1 == HIGH){
+    playNote(2000);
+  }
+}
+
+void playNote(int interval){
+  // this bit of math normalizes the counters target value so that all notes play
+  // for the same length of time. the reason why division happens twice is because my nano
+  // refused to divide a larger integer. The idea is t = (some constant)/interval
+  int x = 0;
+  int i = interval/10;
+  int t = 10000/i;
+  while (x < t){
+    //output 1's and 0's on the provided interval
+    digitalWrite(out, HIGH);
+    delayMicroseconds(interval);
+    digitalWrite(out, LOW);
+    delayMicroseconds(interval);
+    x+=1;
+  }
 }
