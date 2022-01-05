@@ -11,24 +11,13 @@
 //not just wire one up to each
 
 //Defining button states
-int bS1 = 0;
-int bS2 = 0;
-int bS3 = 0;
-int bS4 = 0;
-int bS5 = 0;
-int bS6 = 0;
-int bS7 = 0;
-int bS8 = 0;
+int buttonStates[8];
 
 //defining note frequencies
-int n1 = 0;
-int n2 = 0;
-int n3 = 0;
-int n4 = 0;
-int n5 = 0;
-int n6 = 0;
-int n7 = 0;
-int n8 = 0;
+int noteFreqs[8];
+
+//currentFreq is read in by the pot, so that it can be applied to a note
+int currentFreq = 3039;
 
 void setup() {
   // put your setup code here, to run once:
@@ -42,23 +31,26 @@ void setup() {
   pinMode(b7, INPUT);
   pinMode(b8, INPUT);
   pinMode(out, OUTPUT);
+  //play all of the notes in sucession
+  for(int i=0; i<8; ++i){
+    noteFreqs[i] = 2551;
+  }
 }
 
 void loop() {
   // read in all of the button states to bSx respectively
-  bS1 = digitalRead(b1);
-  bS2 = digitalRead(b2);
-  bS3 = digitalRead(b3);
-  bS4 = digitalRead(b4);
-  bS5 = digitalRead(b5);
-  bS6 = digitalRead(b6);
-  bS7 = digitalRead(b7);
-  bS8 = digitalRead(b8);
-  if (bS1 == HIGH){
-    digitalWrite(out, HIGH);
-  }else{
-    digitalWrite(out, LOW);
-  }
+  buttonStates[0] = digitalRead(b1);
+  buttonStates[1] = digitalRead(b2);
+  buttonStates[2] = digitalRead(b3);
+  buttonStates[3] = digitalRead(b4);
+  buttonStates[4] = digitalRead(b5);
+  buttonStates[5] = digitalRead(b6);
+  buttonStates[6] = digitalRead(b7);
+  buttonStates[7] = digitalRead(b8);
+  setFreq();
+  for(int i=0; i<8; ++i){
+    playNote(noteFreqs[i]);
+  } 
 }
 
 void playNote(int interval){
@@ -75,5 +67,13 @@ void playNote(int interval){
     digitalWrite(out, LOW);
     delayMicroseconds(interval);
     x+=1;
+  }
+}
+
+void setFreq(){
+  for(int i=0; i<8; ++i){
+    if (buttonStates[i] == HIGH){
+      noteFreqs[i] = currentFreq;
+    }
   }
 }
