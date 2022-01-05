@@ -7,6 +7,7 @@
 #define b7 8
 #define b8 9
 #define out 10
+#define analog1 A1
 //button definitions, the nano v3 has 14 digital pins so why
 //not just wire one up to each
 
@@ -16,8 +17,11 @@ int buttonStates[8];
 //defining note frequencies
 int noteFreqs[8];
 
-//currentFreq is read in by the pot, so that it can be applied to a note
-int currentFreq = 3039;
+//startFreq is the lowest note that can be made
+int startFreq = 6000;
+
+// analog value read in by the pot
+int aRead = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -33,7 +37,7 @@ void setup() {
   pinMode(out, OUTPUT);
   //play all of the notes in sucession
   for(int i=0; i<8; ++i){
-    noteFreqs[i] = 2551;
+    noteFreqs[i] = 3331;
   }
 }
 
@@ -47,10 +51,12 @@ void loop() {
   buttonStates[5] = digitalRead(b6);
   buttonStates[6] = digitalRead(b7);
   buttonStates[7] = digitalRead(b8);
+  aRead = analogRead(analog1)*4;
   setFreq();
   for(int i=0; i<8; ++i){
     playNote(noteFreqs[i]);
   } 
+  
 }
 
 void playNote(int interval){
@@ -73,7 +79,7 @@ void playNote(int interval){
 void setFreq(){
   for(int i=0; i<8; ++i){
     if (buttonStates[i] == HIGH){
-      noteFreqs[i] = currentFreq;
+      noteFreqs[i] = startFreq - aRead;
     }
   }
 }
