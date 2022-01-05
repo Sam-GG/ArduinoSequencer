@@ -1,12 +1,12 @@
-#define b1, 1
-#define b2, 2
-#define b3, 3
-#define b4, 4
-#define b5, 5
-#define b6, 6
-#define b7, 7
-#define b8, 8
-#define out, 9
+#define b1 2
+#define b2 3
+#define b3 4
+#define b4 5
+#define b5 6
+#define b6 7
+#define b7 8
+#define b8 9
+#define out 10
 //button definitions, the nano v3 has 14 digital pins so why
 //not just wire one up to each
 
@@ -41,6 +41,7 @@ void setup() {
   pinMode(b6, INPUT);
   pinMode(b7, INPUT);
   pinMode(b8, INPUT);
+  pinMode(out, OUTPUT);
 }
 
 void loop() {
@@ -54,7 +55,9 @@ void loop() {
   bS7 = digitalRead(b7);
   bS8 = digitalRead(b8);
   if (bS1 == HIGH){
-    playNote(2000);
+    digitalWrite(out, HIGH);
+  }else{
+    digitalWrite(out, LOW);
   }
 }
 
