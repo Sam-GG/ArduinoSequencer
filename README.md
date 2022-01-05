@@ -3,4 +3,7 @@
 
 **Current scope:** 8 toggle-able buttons that correspond to a digital squarewave out, which is tuned by a universal potentiometer. Also tempo control.
 
-**Stretch goals:** Unison, and a built-in ASDR generator to control an exterior analog filter.
+**Stretch goals:** 
+* Unison 
+* A built-in ASDR generator for controlling an external analog filter
+* Store and playback multiple sequences/bars, allowing more than 8 notes on repeat
