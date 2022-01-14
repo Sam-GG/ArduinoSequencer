@@ -17,11 +17,11 @@ int buttonStates[8];
 //defining note frequencies
 int noteFreqs[8];
 
-//startFreq is the lowest note that can be made
-int startFreq = 6000;
+//mod tempo
+int tempoScalar = 10;
 
 // analog value read in by the pot
-int aRead = 0;
+float aRead = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -37,7 +37,7 @@ void setup() {
   pinMode(out, OUTPUT);
   //play all of the notes in sucession
   for(int i=0; i<8; ++i){
-    noteFreqs[i] = 3331;
+    noteFreqs[i] = 14602;
   }
 }
 
@@ -51,12 +51,10 @@ void loop() {
   buttonStates[5] = digitalRead(b6);
   buttonStates[6] = digitalRead(b7);
   buttonStates[7] = digitalRead(b8);
-  aRead = analogRead(analog1)*4;
   setFreq();
   for(int i=0; i<8; ++i){
     playNote(noteFreqs[i]);
   } 
-  
 }
 
 void playNote(int interval){
@@ -64,8 +62,9 @@ void playNote(int interval){
   // for the same length of time. the reason why division happens twice is because my nano
   // refused to divide a larger integer. The idea is t = (some constant)/interval
   int x = 0;
-  int i = interval/10;
+  int i = interval/tempoScalar;
   int t = 10000/i;
+  interval = interval/2;
   while (x < t){
     //output 1's and 0's on the provided interval
     digitalWrite(out, HIGH);
@@ -79,7 +78,14 @@ void playNote(int interval){
 void setFreq(){
   for(int i=0; i<8; ++i){
     if (buttonStates[i] == HIGH){
-      noteFreqs[i] = startFreq - aRead;
+      //establishes a base line frequency of 32*1.32 = 43hz or F1
+      aRead = analogRead(analog1)+32;
+      aRead = aRead * 1.324; // peak frequency of (1023+32)*1.324 = 1369 or F6
+      noteFreqs[i] = convertToPeriod(aRead);
     }
   }
+}
+
+int convertToPeriod(float freq){
+  return (1000000/freq);
 }
