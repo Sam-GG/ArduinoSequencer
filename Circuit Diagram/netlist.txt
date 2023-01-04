@@ -1,0 +1,25 @@
+* Netlist created with www.circuit-diagram.org
+* Synth
+'potentiometer c:0 a:1 b:2 style=US text= resistance=60000 showResistance=True t=Potentiometer
+'potentiometer c:3 a:1 b:2 style=US text= resistance=60000 showResistance=True t=Potentiometer
+'potentiometer c:4 a:1 b:2 style=US text= resistance=60000 showResistance=True t=Potentiometer
+'potentiometer c:5 a:1 b:2 style=US text= resistance=60000 showResistance=True t=Potentiometer
+R1 6 1 1000
+R2 7 6 2000
+R3 1 8 10000
+R4 1 9 10000
+R5 1 10 10000
+R6 1 11 10000
+R7 1 12 10000
+R8 1 13 10000
+R9 1 14 10000
+R10 1 15 10000
+'pushswitch b:2 a:8 t=Push closed=False
+'pushswitch b:2 a:9 t=Push closed=False
+'pushswitch b:2 a:10 t=Push closed=False
+'pushswitch b:2 a:11 t=Push closed=False
+'pushswitch b:2 a:12 t=Push closed=False
+'pushswitch b:2 a:13 t=Push closed=False
+'pushswitch b:2 a:14 t=Push closed=False
+'pushswitch b:2 a:15 t=Push closed=False
+'microcontroller #19:0 #21:3 #15:4 #17:5 #24:7 #3:1 #7:2 #22:8 #20:9 #18:10 #16:11 #14:12 #12:13 #10:14 #8:15 #6:1 header=Arduino Nano v3 sz=30 p0=D1 TX p1=Vin p2=D0 RX p3=GND p4=RST p5=RST p6=GND p7=5V p8=D2 p9=A7 p10=D3 p11=A6 p12=D4 p13=A5 p14=D5 p15=A4 p16=D6 p17=A3 p18=D7 p19=A2 p20=D8 p21=A1 p22=D9 p23=A0 p24=D10 p25=AREF p26=D11 p27=3V3 p28=D12 p29=D13 p30= p31= p32= p33= p34= p35= p36= p37= p38= p39=

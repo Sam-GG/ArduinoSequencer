@@ -1,4 +1,4 @@
-#define b1 2
+ #define b1 2
 #define b2 3
 #define b3 4
 #define b4 5
@@ -7,7 +7,10 @@
 #define b7 8
 #define b8 9
 #define out 10
-#define analog1 A1
+#define coarseTune A1
+#define fineTune A2
+#define tempo A3
+#define noteLength A4
 //button definitions, the nano v3 has 14 digital pins so why
 //not just wire one up to each
 
@@ -17,11 +20,11 @@ int buttonStates[8];
 //defining note frequencies
 int noteFreqs[8];
 
-//mod tempo
-int tempoScalar = 10;
+//mod tempo - larger is slower
+int tempoScalar = 25;
 
-// analog value read in by the pot
-float aRead = 0;
+// analog value read in by the pots
+float tune = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -52,6 +55,8 @@ void loop() {
   buttonStates[6] = digitalRead(b7);
   buttonStates[7] = digitalRead(b8);
   setFreq();
+  setTempo();
+//  playNote(noteFreqs[0]);
   for(int i=0; i<8; ++i){
     playNote(noteFreqs[i]);
   } 
@@ -65,27 +70,47 @@ void playNote(int interval){
   int i = interval/tempoScalar;
   int t = 10000/i;
   interval = interval/2;
+  int length = analogRead(noteLength);
+  float deadspace = (float(length)/float(interval/250));
+//  Serial.println(length);
+//  deadspace = min(t, deadspace);
+    
   while (x < t){
-    //output 1's and 0's on the provided interval
-    digitalWrite(out, HIGH);
-    delayMicroseconds(interval);
-    digitalWrite(out, LOW);
-    delayMicroseconds(interval);
+    if (x > deadspace){
+      delayMicroseconds(2*interval);
+    }else{
+      //output 1's and 0's on the provided interval
+      digitalWrite(out, HIGH);
+      delayMicroseconds(interval);
+      digitalWrite(out, LOW);
+      delayMicroseconds(interval);  
+    }
     x+=1;
   }
+  
 }
 
 void setFreq(){
   for(int i=0; i<8; ++i){
     if (buttonStates[i] == HIGH){
       //establishes a base line frequency of 32*1.32 = 43hz or F1
-      aRead = analogRead(analog1)+32;
-      aRead = aRead * 1.324; // peak frequency of (1023+32)*1.324 = 1369 or F6
-      noteFreqs[i] = convertToPeriod(aRead);
+      tune = analogRead(coarseTune)+32;
+      tune *= 1.324; // peak frequency of (1023+32)*1.324 = 1369 or F6
+      tune *= (0.75+((float)analogRead(fineTune)+1)/2046); //fine tune of 0.75 - 1.25 the coarse tune
+      noteFreqs[i] = convertToPeriod(tune);
     }
   }
 }
 
 int convertToPeriod(float freq){
   return (1000000/freq);
+}
+
+void setTempo(){
+//  tempoScalar*= (float)analogRead(tempo)/512;
+  tempoScalar = ((float)analogRead(tempo)/18 + 2);
+}
+
+void setNoteLength(){
+  
 }
