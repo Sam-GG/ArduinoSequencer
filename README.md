@@ -1,7 +1,7 @@
 # ArduinoSequencer
 8-note arduino nano v3 sequencer. Everything from controls to digital sound generation.
 
-**Current scope:** 8 toggle-able buttons that correspond to a digital squarewave out, which is tuned by a universal potentiometer. Also tempo control.
+**Current scope:** 8 toggle-able buttons that correspond to a digital squarewave out, which is tuned by two coarse and fine pitch potentiometers. Also tempo control and note length in the same fashion.
 
 **Stretch goals:** 
 * Unison 
